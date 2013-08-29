@@ -14,8 +14,6 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
-import com.anmark.grund.DBAdapter.Row;
-
 public class SinglePlaceActivity extends Activity {
 	// flag for Internet connection status
 	Boolean isInternetPresent = false;
@@ -43,7 +41,6 @@ public class SinglePlaceActivity extends Activity {
 	private RatingBar ratingBar;
 	private TextView txtRatingValue;
 	private TextView txtComment;
-	private EditText txtCommentValue;
 	private DBAdapter db;
 	private String reference;
 
@@ -70,19 +67,19 @@ public class SinglePlaceActivity extends Activity {
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
 
-		txtComment = (TextView) findViewById(R.id.Single_Place_Comment);
+		txtComment = (TextView) findViewById(R.id.Single_Place_CommentValue);
 
 		db = new DBAdapter(getApplicationContext());
 
 		addListenerOnRatingBar();
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
+		super.onConfigurationChanged(newConfig);
 
 	}
-	
+
 	public void newComment(View view) {
 		Intent i = new Intent(getApplicationContext(), SinglePlaceCommentActivity.class);
 		i.putExtra("placeID", placeID);
@@ -191,7 +188,7 @@ public class SinglePlaceActivity extends Activity {
 								//if place exist query and display rating else create place in db
 								DBAdapter db = new DBAdapter(getApplicationContext());
 								db.open();
-								//accessDB( placeID,  name);
+
 								if(!db.rowExists(placeID)){
 									db.createRow(placeID, name, 0, "");
 									txtRatingValue.setText("0");
@@ -207,8 +204,7 @@ public class SinglePlaceActivity extends Activity {
 								//float convert workaround
 								Float ratingf = (float) (rating / 1.0);
 								ratingBar.setRating(ratingf);
-								//TODO: remove print								
-								//db.printAllRows();
+
 								db.close();
 
 								txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
@@ -218,7 +214,7 @@ public class SinglePlaceActivity extends Activity {
 								// Displaying all the details in the view
 								// single_place.xml
 								TextView lbl_name = (TextView) findViewById(R.id.name);
-								TextView lbl_address = (TextView) findViewById(R.id.address);
+								TextView lbl_address = (TextView) findViewById(R.id.addressValue);
 								TextView lbl_phone = (TextView) findViewById(R.id.phone);
 
 								// Check for null data from google
@@ -233,9 +229,6 @@ public class SinglePlaceActivity extends Activity {
 								lbl_address.setText(address);
 								lbl_phone.setText(Html.fromHtml("<b>Phone:</b> " + phone));
 
-								//TODO:	set rating 
-								//txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
-								//txtRatingValue.setText(String.valueOf(rating));
 							}
 						}
 						else if(status.equals("ZERO_RESULTS")){
@@ -285,15 +278,6 @@ public class SinglePlaceActivity extends Activity {
 
 		}
 
-	}
-	public void accessDB(String id, String name){
-		DBAdapter dba = new DBAdapter(getApplicationContext());
-		dba.open();
-		dba.createRow(id, name, 0, "");
-		for(Row row : db.getAllRows()){
-			System.out.println("placeID: "+ row.placeID + " Name: " + row.getName()+ " Rating: " + row.getRating() +" Comment: " + row.getComment());
-		}
-		db.close();
 	}
 
 }
