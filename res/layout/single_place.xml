@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background"
-    android:gravity="right"
-    android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="15sp"
+    >
 
-    <!-- Name  -->
+    <!-- Name -->
 
     <TextView
         android:id="@+id/name"
@@ -15,86 +14,120 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="15sp" />
+        android:paddingBottom="@dimen/padding_text"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/BigText" />
 
-    <!-- Address  -->
+    <!-- Address -->
 
     <TextView
-        android:id="@+id/adressLabel"
+        android:id="@+id/addressLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/name"
-        android:text="Adress: "
+        android:text="@string/Single_Place_Adress"
+        android:textSize="@dimen/HeaderText"
+        android:textColor="@android:color/black"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/addressValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/adressLabel" />
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/addressLabel"
+        android:paddingLeft="@dimen/padding_text"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/HeaderText" />
 
     <!-- Phone -->
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/phoneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/addressValue"
+        android:text="@string/Single_Place_Phone"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/HeaderText"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/phoneValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addressValue"
-        android:layout_marginTop="10dip"/>
+        android:layout_toRightOf="@+id/phoneLabel"
+        android:paddingLeft="@dimen/padding_text"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/HeaderText" />
 
-    <!-- Comment  -->
-    
-     <TextView
+    <!-- Comment -->
+
+    <TextView
+        android:id="@+id/commentLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/phoneValue"
+        android:text="@string/Single_Place_Comment"
+        android:textSize="@dimen/HeaderText"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/CommentValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_alignParentLeft="true"
-        android:text="@string/Single_Place_Comment"
+        android:layout_below="@+id/phoneValue"
+        android:layout_toRightOf="@+id/commentLabel"
+        android:paddingLeft="@dimen/padding_text"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/HeaderText"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonNewComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/CommentValue"
         android:onClick="newComment"
+        android:textColor="@android:color/black"
         android:text="@string/Single_Place_NewComment" />
 
-    
-     <!-- Rating  -->
-     
+    <!-- Rating -->
+
     <TextView
         android:id="@+id/ratingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="15dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttonNewComment"
         android:text="@string/Single_Place_Rating"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/HeaderText"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtRatingValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ratingLabel" />
+        android:layout_below="@+id/buttonNewComment"
+        android:layout_toRightOf="@+id/ratingLabel"
+        android:paddingLeft="@dimen/padding_text"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/HeaderText" />
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtRatingValue"
+        android:layout_below="@+id/ratingLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
         android:numStars="5"
-        android:stepSize="1.0"
-        android:textStyle="bold" />
-    
-       
-
-
+        android:stepSize="1.0" />
 
 </RelativeLayout>

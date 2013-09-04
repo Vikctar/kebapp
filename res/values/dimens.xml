@@ -6,5 +6,9 @@
     <dimen name="padding_large">16dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="BigText">25sp</dimen>
+    <dimen name="HeaderText">17sp</dimen>
+    <dimen name="NormalText">12sp</dimen>
+      <dimen name="padding_text">10sp</dimen>
 
 </resources>

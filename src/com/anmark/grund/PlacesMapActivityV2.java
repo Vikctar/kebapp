@@ -1,5 +1,7 @@
 package com.anmark.grund;
 
+import java.util.Iterator;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
@@ -124,7 +126,7 @@ public class PlacesMapActivityV2 extends Activity {
 
 				//set map type
 				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
+				
 				// Get latitude of the current location
 				double latitude = myLocation.getLatitude();
 

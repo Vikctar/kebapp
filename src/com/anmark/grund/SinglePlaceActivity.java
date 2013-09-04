@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
@@ -40,9 +41,16 @@ public class SinglePlaceActivity extends Activity {
 
 	private RatingBar ratingBar;
 	private TextView txtRatingValue;
+	private TextView txtCommentValue;
+	private TextView txtRating;
 	private TextView txtComment;
+	private TextView txtAdress;
+	private TextView txtPhone;
+	private Button button_newComment;
+	
 	private DBAdapter db;
 	private String reference;
+	private Typeface tf;
 
 	private String name;
 	private String address;
@@ -66,9 +74,23 @@ public class SinglePlaceActivity extends Activity {
 
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
-
-		txtComment = (TextView) findViewById(R.id.Single_Place_CommentValue);
-
+		txtCommentValue = (TextView) findViewById(R.id.CommentValue);
+		txtRating = (TextView) findViewById(R.id.ratingLabel);
+		txtComment = (TextView) findViewById(R.id.commentLabel);
+		txtAdress = (TextView) findViewById(R.id.addressLabel);
+		txtPhone = (TextView) findViewById(R.id.phoneLabel);
+		button_newComment = (Button) findViewById(R.id.buttonNewComment);
+		
+		
+		tf = Typeface.createFromAsset(getAssets(), "fonts/slapstick.ttf");
+		txtCommentValue.setTypeface(tf);
+		txtRatingValue.setTypeface(tf);
+		txtRating.setTypeface(tf);
+		txtComment.setTypeface(tf);
+		txtAdress.setTypeface(tf);
+		txtPhone.setTypeface(tf);
+		button_newComment.setTypeface(tf);
+		
 		db = new DBAdapter(getApplicationContext());
 
 		addListenerOnRatingBar();
@@ -93,7 +115,7 @@ public class SinglePlaceActivity extends Activity {
 			if(resultCode == RESULT_OK){      
 				String tempPlaceID = data.getStringExtra("placeID");  
 				db.open();
-				txtComment.setText(db.getRow(tempPlaceID).getComment());
+				txtCommentValue.setText(db.getRow(tempPlaceID).getComment());
 				db.close();
 			}
 			if (resultCode == RESULT_CANCELED) {    
@@ -196,7 +218,7 @@ public class SinglePlaceActivity extends Activity {
 								}
 
 								String comment = db.getRow(placeID).getComment();
-								txtComment.setText(comment);
+								txtCommentValue.setText(comment);
 
 								Double rating = db.getRow(placeID).getRating();
 								txtRatingValue.setText(Double.toString(rating));
@@ -209,13 +231,13 @@ public class SinglePlaceActivity extends Activity {
 
 								txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
 
-								Log.d("Place ", name + address + phone + latitude + longitude);
+								//Log.d("Place ", name + address + phone + latitude + longitude);
 
 								// Displaying all the details in the view
 								// single_place.xml
 								TextView lbl_name = (TextView) findViewById(R.id.name);
 								TextView lbl_address = (TextView) findViewById(R.id.addressValue);
-								TextView lbl_phone = (TextView) findViewById(R.id.phone);
+								TextView lbl_phone = (TextView) findViewById(R.id.phoneValue);
 
 								// Check for null data from google
 								// Sometimes place details might missing
@@ -227,7 +249,11 @@ public class SinglePlaceActivity extends Activity {
 
 								lbl_name.setText(name);
 								lbl_address.setText(address);
-								lbl_phone.setText(Html.fromHtml("<b>Phone:</b> " + phone));
+								lbl_phone.setText(phone);
+								
+								lbl_name.setTypeface(tf);
+								lbl_address.setTypeface(tf);
+								lbl_phone.setTypeface(tf);
 
 							}
 						}

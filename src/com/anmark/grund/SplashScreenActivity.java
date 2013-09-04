@@ -125,7 +125,7 @@ public class SplashScreenActivity extends Activity {
 				// If you want all types places make it as null
 				// Check list of types supported by google
 				// 
-				String types = "restaurant"; // Listing places only restaurants
+				String types = ""; // Listing places only restaurants
 				String keyword = "pizza";// Listing places with keyword pizza
 				// Radius in meters - increase this value if you don't find any places
 				//double radius = 1000; // 1000 meters 

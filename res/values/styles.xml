@@ -1,9 +1,12 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
     
      <style name="MyTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/gradient</item> 
+        <!--   <item name="android:windowBackground">@drawable/gradient</item>
+		-->	
+		
+      
     </style>
 
 </resources>
