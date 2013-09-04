@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PlacesMapActivityV2 extends Activity {
 
+	
+	private static final int MAP_ZOOMLEVEL = 14;
 	private GoogleMap mMap;
 	String delimiter = "DELIMITER";
 	public static String KEY_REFERENCE = "reference"; // id of the place
@@ -65,7 +67,7 @@ public class PlacesMapActivityV2 extends Activity {
 					}
 
 					final LatLng placePos = new LatLng(p.getGeometry().location.lat,p.getGeometry().location.lng);
-					builder.include(placePos);
+					//builder.include(placePos);
 					mMap.addMarker(new MarkerOptions()
 					.position(placePos)					                          
 					// marker workaround title is place reference
@@ -134,12 +136,12 @@ public class PlacesMapActivityV2 extends Activity {
 				double longitude = myLocation.getLongitude();
 
 				// Create a LatLng object for the current location
-				LatLng latLng = new LatLng(latitude, longitude);      
+				final LatLng latLng = new LatLng(latitude, longitude);      
 
 				mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 
 					public void onCameraChange(CameraPosition arg0) {
-						mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+						mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOMLEVEL));
 						mMap.setOnCameraChangeListener(null);
 					}
 				});

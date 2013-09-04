@@ -125,24 +125,20 @@ public class MainActivity extends Activity {
 					int position, long id) {
 				// getting values from selected ListItem
 
-				
+				/*
 				DBAdapter db = new DBAdapter(getApplicationContext());
 				db.open();
 				db.deleteAllRows();
 				db.close();
 
-				 
+				 */
+				
 				// Starting new intent
-
 				// Sending place refrence id to single place activity
 				// place refrence id used to get "Place full details"
-
-					
 				String reference = ((TextView) view.findViewById(R.id.reference)).getText().toString();
 				Intent in = new Intent(getApplicationContext(),
 						SinglePlaceActivity.class);
-
-
 				in.putExtra(KEY_REFERENCE, reference);
 				startActivity(in);
 
