@@ -15,7 +15,20 @@ import android.util.Log;
 
 public class DBAdapter {
 
+	/**
+	 * AdapterClass to create and handle database operations
+	 * */
+
+	/**
+	 * Class that handles row object
+	 * */
 	class Row extends Object {
+
+		public String placeID;
+		public String name;
+		public double rating;
+		public String comment;
+
 		public String getPlaceID() {
 			return placeID;
 		}
@@ -48,10 +61,6 @@ public class DBAdapter {
 			this.comment = comment;
 		}
 
-		public String placeID;
-		public String name;
-		public double rating;
-		public String comment;
 	}
 
 	private static final String DATABASE_NAME = "PLACESDB";
@@ -78,6 +87,9 @@ public class DBAdapter {
 	public static boolean mExternalStorageAvailable = false;
 	public static boolean mExternalStorageWriteable = false;
 
+	/**
+	 * Check external storage availability
+	 */
 	public void checkMediaAvailability() {
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -95,6 +107,9 @@ public class DBAdapter {
 		}
 	}
 
+	/**
+	 *	AdapterClass to create and handle database operations
+	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
 		DatabaseHelper(Context context, String path) {
@@ -128,14 +143,14 @@ public class DBAdapter {
 	 * opened/created
 	 * 
 	 * @param ctx
-	 *            the Context within which to work
+	 * the Context within which to work
 	 */
 	public DBAdapter(Context ctx) {
 		// db = ctx.openOrCreateDatabase(DATABASE_NAME, DATABASE_VERSION, null);
 		// db.execSQL(DATABASE_CREATE);
 		this.mCtx = ctx;
+		//Check if DB already exists
 		File dbFile = mCtx.getDatabasePath(DATABASE_NAME);
-		System.out.println(dbFile.toString());
 		databaseExist = dbFile.exists();
 
 	}
@@ -168,6 +183,15 @@ public class DBAdapter {
 		mDbHelper.close();
 	}
 
+	/**
+	 * Create the row with the given placeId, name, rating and comment
+	 * 
+	 * @param placeID
+	 * @param name
+	 * @param rating
+	 * @param comment
+	 * 
+	 */
 	public void createRow(String placeID, String name, double rating,
 			String comment) {
 		ContentValues initialValues = new ContentValues();
@@ -178,6 +202,11 @@ public class DBAdapter {
 		mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
 
+	/**
+	 * Check if the row with the given placeId exists
+	 * @param placeID
+	 * @return true if it exists / false otherwise
+	 */
 	public boolean rowExists(String placeID) {
 
 		Cursor cursor = mDb.query(true, DATABASE_TABLE, new String[] {
@@ -193,7 +222,7 @@ public class DBAdapter {
 	 * Delete the row with the given placeId
 	 * 
 	 * @param placeId
-	 *            of note to delete
+	 *            of row to delete
 	 * @return true if deleted, false otherwise
 	 */
 	public boolean deleteRowById(String placeID) {
@@ -201,11 +230,23 @@ public class DBAdapter {
 				new String[] { placeID }) > 0;
 	}
 
+	/**
+	 * Delete the row with the given name
+	 * 
+	 * @param name
+	 *            of row to delete
+	 * @return true if deleted, false otherwise
+	 */
 	public boolean deleteRowByName(String name) {
 		return mDb.delete(DATABASE_TABLE, COLUMN_NAME + "=?",
 				new String[] { name }) > 0;
 	}
 
+	/**
+	 * Returns a a list of all rows in the database
+	 * 
+	 * @return a list of of all rows, empty if exception on query occurs
+	 */
 	public List<Row> getAllRows() {
 		ArrayList<Row> ret = new ArrayList<Row>();
 		try {
@@ -230,6 +271,11 @@ public class DBAdapter {
 		return ret;
 	}
 
+	/**
+	 * Return the row with the given placeID
+	 * @param placeID of row to fetch
+	 * @return row
+	 */
 	public Row getRow(String placeID) {
 		Row row = new Row();
 		Cursor c = mDb.query(true, DATABASE_TABLE, new String[] {
@@ -277,6 +323,16 @@ public class DBAdapter {
 				new String[] { placeID }) > 0;
 	}
 
+	/**
+	 * Update the place using the details provided. The place to be updated is
+	 * specified using the name, and it is altered to use the rating passed in
+	 * 
+	 * @param name
+	 *            value to set place name to
+	 * @param rating
+	 *            value to set place rating to
+	 * @return true if the note was successfully updated, false otherwise
+	 */
 	public boolean updateRowRatingByName(String name, double rating) {
 		ContentValues args = new ContentValues();
 		args.put(COLUMN_RATING, rating);
@@ -284,6 +340,16 @@ public class DBAdapter {
 				new String[] { name }) > 0;
 	}
 
+	/**
+	 * Update the place using the details provided. The place to be updated is
+	 * specified using the placeID, and it is altered to use the comment passed in
+	 * 
+	 * @param placeID
+	 *            value of placeID
+	 * @param comment
+	 *            value to set place comment to
+	 * @return true if the note was successfully updated, false otherwise
+	 */
 	public boolean updateRowCommentById(String placeID, String comment) {
 		ContentValues args = new ContentValues();
 		args.put(COLUMN_COMMENT, comment);
@@ -291,6 +357,16 @@ public class DBAdapter {
 				new String[] { placeID }) > 0;
 	}
 
+	/**
+	 * Update the place using the details provided. The place to be updated is
+	 * specified using the name, and it is altered to use the comment passed in
+	 * 
+	 * @param name
+	 *            value of name
+	 * @param comment
+	 *            value to set place comment to
+	 * @return true if the note was successfully updated, false otherwise
+	 */
 	public boolean updateRowCommentByName(String name, String comment) {
 		ContentValues args = new ContentValues();
 		args.put(COLUMN_COMMENT, comment);
@@ -298,10 +374,19 @@ public class DBAdapter {
 				new String[] { name }) > 0;
 	}
 
+	/**
+	 * Delete all rows in the DB
+	 * @return true if the note was successfully deleted, false otherwise
+	 */
 	public boolean deleteAllRows() {
 		return mDb.delete(DATABASE_TABLE, null, null) > 0;
 	}
 
+	/**
+	 * Returns a cursor for all rows in the database
+	 * 
+	 * @return cursor for the database, null if exception in query
+	 */
 	public Cursor getAllRowsCursor() {
 		try {
 			return mDb.query(DATABASE_TABLE, new String[] { COLUMN_PLACEID,
@@ -312,8 +397,11 @@ public class DBAdapter {
 			return null;
 		}
 	}
-	
-	
+
+
+	/**
+	 * Temporary method to print all rows in DB
+	 */
 	public void printAllRows(){
 		for(Row row : getAllRows()){
 			System.out.println("placeID: "+ row.placeID + " Name: " + row.getName()+ " Rating: " + row.getRating() +" Comment: " + row.getComment());

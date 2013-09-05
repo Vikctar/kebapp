@@ -21,9 +21,9 @@ public class SinglePlaceCommentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_single_place_comment);
 
-		// get customfont
+		// application font
 		tf = Typeface.createFromAsset(getAssets(), "fonts/slapstick.ttf");
-		
+
 		Intent i = getIntent();
 		placeID = i.getStringExtra("placeID");
 
@@ -31,25 +31,25 @@ public class SinglePlaceCommentActivity extends Activity {
 		buttonSaveComment = (Button) findViewById(R.id.buttonSaveComment);
 		txtCommentValue.setTypeface(tf);
 		buttonSaveComment.setTypeface(tf);
-		
+
 		db = new DBAdapter(getApplicationContext());
 		db.open();
 		txtCommentValue.setText(db.getRow(placeID).getComment());
 		db.close();
 
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-	   
-	}
+		super.onConfigurationChanged(newConfig);
 
+	}
+	
+	// on button press, save update comment in db 
 	public void saveComment(View view) {
 		String tempComment = txtCommentValue.getText().toString();
 		db.open();
-		System.out.println("update placeid :"+placeID);
-		System.out.println("update: " +db.updateRowCommentById(placeID, tempComment));
+		db.updateRowCommentById(placeID, tempComment);
 		db.close();
 
 		Intent returnIntent = new Intent();

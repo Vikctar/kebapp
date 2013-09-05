@@ -35,10 +35,10 @@ public class SplashScreenActivity extends Activity {
 	// Progress dialog
 	ProgressDialog pDialog;
 
-
-	public static boolean noGo = true;
 	// Splash screen timer
 	private static int SPLASH_TIME_OUT = 2000;
+
+	//public static boolean noGo = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class SplashScreenActivity extends Activity {
 		}
 
 		//TODO:
-		noGo = false;
+		//noGo = false;
 
 		new Handler().postDelayed(new Runnable() {
 
@@ -152,8 +152,22 @@ public class SplashScreenActivity extends Activity {
 
 			// After completing http call
 			// will close this activity and lauch main activity
-			Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+			Intent i = new Intent(getApplicationContext(), MainActivity.class);
+
+			// passing near places to main activity		
+			i.putExtra("near_places", nearPlaces);
+			
+			// Sending user current gps location
+			i.putExtra("user_latitude", gps.getLatitude());
+			i.putExtra("user_longitude", gps.getLongitude());
+			
+			//TODO: serialize
+			// passing gps to main activity	
+			//i.putExtra("gps", gps);
+			
+			// staring activity
 			startActivity(i);
+	
 
 			// close this activity
 			finish();

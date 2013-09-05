@@ -4,13 +4,17 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.ArrayAdapter;
 
+	//not used 
+
 	class CustomAdapter extends ArrayAdapter<CharSequence>{
 
 		Context context; 
 		int layoutResourceId;    
 		CharSequence data[] = null;
 		Typeface tf; 
-
+		
+		
+		
 		public CustomAdapter(Context context, int layoutResourceId, CharSequence[] data, String FONT ) { 
 			super(context, layoutResourceId, data);
 			this.layoutResourceId = layoutResourceId;

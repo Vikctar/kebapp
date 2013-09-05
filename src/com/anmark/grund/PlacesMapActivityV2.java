@@ -1,10 +1,8 @@
 package com.anmark.grund;
 
-import java.util.Iterator;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,33 +17,46 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PlacesMapActivityV2 extends Activity {
 
-	
+
 	private static final int MAP_ZOOMLEVEL = 14;
 	private GoogleMap mMap;
-	String delimiter = "DELIMITER";
+	static String delimiter = "DELIMITER";
 	public static String KEY_REFERENCE = "reference"; // id of the place
+	private double user_latitude;
+	private double user_longitude;
+	private PlacesList nearPlaces;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		//GoogleMapOptions options = new GoogleMapOptions();
-
-
-		setContentView(R.layout.activity_places_map_v2);
-
+		// Getting intent data
+		Intent i = getIntent();
+		if(i.getExtras() != null){
+			// get nearplaces list
+			nearPlaces = (PlacesList) i.getSerializableExtra("near_places");
+			// user gps latitude and longitude
+			user_latitude = i.getDoubleExtra("user_latitude", 0.0);
+			user_longitude = i.getDoubleExtra("user_longitude", 0.0);        
+		}
+		setContentView(R.layout.activity_places_map_v2);	
 		setUpMapIfNeeded();
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+	}
+	
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the map.
 		if (mMap == null) {
-
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapV2)).getMap();
 			// Check if we were successful in obtaining the map.
 			if (mMap != null) {
@@ -55,9 +66,9 @@ public class PlacesMapActivityV2 extends Activity {
 				db.open();
 				//accessDB( placeID,  name);
 
-				final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+				//final LatLngBounds.Builder builder = new LatLngBounds.Builder();
 				//Number of latitude and longitude in for loop
-				for(Place p : SplashScreenActivity.nearPlaces.results){
+				for(Place p : nearPlaces.results){
 					String comment = "";
 					Double rating = 0.0;
 					if(db.rowExists(p.id)){
@@ -76,7 +87,7 @@ public class PlacesMapActivityV2 extends Activity {
 					.snippet(p.name + " " + delimiter + " " + comment + " " + delimiter + " " + rating)
 					.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 				}
-				
+
 				db.close();
 
 				mMap.setInfoWindowAdapter(new InfoWindowAdapter() {
@@ -123,20 +134,20 @@ public class PlacesMapActivityV2 extends Activity {
 
 				mMap.setMyLocationEnabled(true);
 
-				GPSTracker gps =  SplashScreenActivity.gps;
-				Location myLocation = gps.getLocation();
+				//GPSTracker gps =  SplashScreenActivity.gps;
+				//Location myLocation = gps.getLocation();
 
 				//set map type
 				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-				
+
 				// Get latitude of the current location
-				double latitude = myLocation.getLatitude();
+				//double latitude = myLocation.getLatitude();
 
 				// Get longitude of the current location
-				double longitude = myLocation.getLongitude();
+				//double longitude = myLocation.getLongitude();
 
 				// Create a LatLng object for the current location
-				final LatLng latLng = new LatLng(latitude, longitude);      
+				final LatLng latLng = new LatLng(user_latitude, user_longitude);      
 
 				mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 

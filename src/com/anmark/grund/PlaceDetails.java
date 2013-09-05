@@ -4,9 +4,8 @@ import java.io.Serializable;
 
 import com.google.api.client.util.Key;
 
-/** Implement this class from "Serializable"
-* So that you can pass this class Object to another using Intents
-* Otherwise you can't pass to another actitivy
+/** 
+* Enables passing PlaceDetails objects between activities
 * */
 public class PlaceDetails implements Serializable {
 

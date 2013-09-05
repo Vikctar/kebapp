@@ -2,7 +2,6 @@ package com.anmark.grund;
 
 import org.apache.http.client.HttpResponseException;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.api.client.googleapis.GoogleHeaders;
@@ -31,7 +30,7 @@ public class GooglePlaces {
 
 	private double _latitude;
 	private double _longitude;
-	private double _radius;
+	//private double _radius;
 	private String _types;
 	private String _keyword;
 	private String _rankby;
@@ -40,9 +39,8 @@ public class GooglePlaces {
 	 * Searching places
 	 * @param latitude - latitude of place
 	 * @params longitude - longitude of place
-	 * @param types2 - radius of searchable area
 	 * @param types - type of place to search
-	 * @param rankby2 
+	 * @param rankby
 	 * @return list of places
 	 * */
 	public PlacesList search(double latitude, double longitude, String types, String keyword, String rankby)
@@ -64,12 +62,12 @@ public class GooglePlaces {
 			request.getUrl().put("location", _latitude + "," + _longitude);
 			//request.getUrl().put("radius", _radius); // in meters
 			request.getUrl().put("sensor", "false");
-			if(types != null)
-				request.getUrl().put("types", types);
-			if(types != null)
-				request.getUrl().put("keyword", keyword);
-			if(types != null)
-				request.getUrl().put("rankby", rankby);
+			if(_types != null)
+				request.getUrl().put("types", _types);
+			if(_keyword != null)
+				request.getUrl().put("keyword", _keyword);
+			if(_rankby != null)
+				request.getUrl().put("rankby", _rankby);
 
 			PlacesList list = request.execute().parseAs(PlacesList.class);
 			// Check log cat for places response status

@@ -7,8 +7,6 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -16,12 +14,6 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
 public class SinglePlaceActivity extends Activity {
-	// flag for Internet connection status
-	Boolean isInternetPresent = false;
-
-	// Connection detector class
-	ConnectionDetector cd;
-
 	// Alert Dialog Manager
 	AlertDialogManager alert = new AlertDialogManager();
 
@@ -34,8 +26,6 @@ public class SinglePlaceActivity extends Activity {
 	// Progress dialog
 	ProgressDialog pDialog;
 
-
-
 	// KEY Strings
 	public static String KEY_REFERENCE = "reference"; // id of the place
 
@@ -47,7 +37,7 @@ public class SinglePlaceActivity extends Activity {
 	private TextView txtAdress;
 	private TextView txtPhone;
 	private Button button_newComment;
-	
+
 	private DBAdapter db;
 	private String reference;
 	private Typeface tf;
@@ -67,7 +57,9 @@ public class SinglePlaceActivity extends Activity {
 		Intent i = getIntent();
 
 		// Place referece id
-		reference = i.getStringExtra(KEY_REFERENCE);
+
+		if(i != null)
+			reference = i.getStringExtra(KEY_REFERENCE);
 
 		// Calling a Async Background thread
 		new LoadSinglePlaceDetails().execute(reference);
@@ -80,8 +72,8 @@ public class SinglePlaceActivity extends Activity {
 		txtAdress = (TextView) findViewById(R.id.addressLabel);
 		txtPhone = (TextView) findViewById(R.id.phoneLabel);
 		button_newComment = (Button) findViewById(R.id.buttonNewComment);
-		
-		
+
+		// application font
 		tf = Typeface.createFromAsset(getAssets(), "fonts/slapstick.ttf");
 		txtCommentValue.setTypeface(tf);
 		txtRatingValue.setTypeface(tf);
@@ -90,7 +82,7 @@ public class SinglePlaceActivity extends Activity {
 		txtAdress.setTypeface(tf);
 		txtPhone.setTypeface(tf);
 		button_newComment.setTypeface(tf);
-		
+
 		db = new DBAdapter(getApplicationContext());
 
 		addListenerOnRatingBar();
@@ -111,7 +103,7 @@ public class SinglePlaceActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
-
+			//update comment in db and in view
 			if(resultCode == RESULT_OK){      
 				String tempPlaceID = data.getStringExtra("placeID");  
 				db.open();
@@ -154,7 +146,7 @@ public class SinglePlaceActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(SinglePlaceActivity.this);
-			pDialog.setMessage("Loading profile ...");
+			pDialog.setMessage("Loading place ...");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(false);
 			pDialog.show();
@@ -250,7 +242,7 @@ public class SinglePlaceActivity extends Activity {
 								lbl_name.setText(name);
 								lbl_address.setText(address);
 								lbl_phone.setText(phone);
-								
+
 								lbl_name.setTypeface(tf);
 								lbl_address.setTypeface(tf);
 								lbl_phone.setTypeface(tf);
